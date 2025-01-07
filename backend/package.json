@@ -1,11 +1,17 @@
 {
   "name": "highwayhell",
   "version": "1.0.0",
-  "description": "hsdhshd",
+  "description": "making full stack website with friends",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"nodemon src/index.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "aashish+shlok+ishansh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.3",
+    "nodemon": "^3.1.9"
+  }
 }
