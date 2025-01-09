@@ -1,10 +1,18 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-dotenv.config(); // Load environment variables from .env file
+const mongoose = require("mongoose");
+require("dotenv").config();
+let MONGO_URL = `${process.env.MONGO_URI}`;
+// Connecting to database
 
 const connectDB = async () => {
-  mongoose.connect("mongodb+srv://Aashish:jha@cluster0.5vwwq.mongodb.net/highwayDB");
+  try {
+    const connectionInstance = await mongoose.connect(MONGO_URL);
+    console.log(
+      `\n MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`
+    );
+  } catch (error) {
+    console.log("MONGODB connection FAILED ", error);
+    process.exit(1);
+  }
 };
 
-export default connectDB;
+module.exports = connectDB;
