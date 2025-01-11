@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose =  require("mongoose");
 
 // Regular expression for username validation
 const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_\-$]{0,49}$/;
@@ -51,7 +51,8 @@ const userSchema = new mongoose.Schema({
       required: false,
     },
   ],
-});
+}, {timestamps: true }
+);
 
 // Export the model
 module.exports = mongoose.model("User", userSchema);
