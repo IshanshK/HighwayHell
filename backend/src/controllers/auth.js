@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.js");
-
+require("dotenv").config();
 //Registration
 const register = async (req, res) => {
     try {
@@ -33,7 +33,8 @@ const register = async (req, res) => {
  const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ useremail: email });
+    console.log(user);
     if (!user) return res.status(400).json({ msg: "User does not exist. " });
     const [salt, storedHash] = user.password.split(":");
 
@@ -45,7 +46,7 @@ const register = async (req, res) => {
     if (passwordHash !== storedHash) {
       return res.status(400).json({ msg: "Invalid credentials." });
     }
-
+    console.log(process.env.JWT_SECRET);
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     delete user.password;
     res.status(200).json({ token, user });
