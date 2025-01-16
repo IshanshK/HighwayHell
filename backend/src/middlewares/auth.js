@@ -18,7 +18,6 @@ const jwt = require("jsonwebtoken");
     res.status(500).json({ error: err.message });
   }
 };
-console.log("token");
 module.exports={
     verifyToken
 }

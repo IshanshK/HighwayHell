@@ -1,8 +1,11 @@
 const axios = require('axios');
 const Trip = require("../models/Trip");
 const User = require("../models/User");
+require("dotenv").config();
+const API_KEY = process.env.API_KEY;
 
 const createTrip = async (req, res) => {
+  
   try {
     const { tripName, startLocation } = req.body;
 
@@ -100,9 +103,9 @@ const fetchNearbyVenues = async (req, res) => {
       {
         params: {
           location: `${latitude},${longitude}`,
-          radius : radius || 15000, // Default radius to 20000 meters
-          keyword : searchQuery,
-          key : "AlzaSyBTLzyp9FYJE7-_jgpGYVW5N7yvzCZNWJT", // Replace with actual API key
+          radius: radius || 15000, // Default radius to 20000 meters
+          keyword: searchQuery,
+          key: `${API_KEY}`, // Replace with actual API key
         },
       }
     );
