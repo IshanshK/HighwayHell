@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+//const Venue = require("../models");
+//const User = require("../models");
+
 
 const tripSchema = new mongoose.Schema(
   {
@@ -32,21 +35,13 @@ const tripSchema = new mongoose.Schema(
           },
         },
       ],
-      // default: [],
     },
-    destination: {
-      latitude: {
-        type: Number,
-        required: false,
-      },
-      longitude: {
-        type: Number,
-        required: false,
-      },
+    venue: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Venue", // Reference to the Venue model
     },
   },
   { timestamps: true } // Automatically add createdAt and updatedAt fields
 );
 
-// Export the model
 module.exports = mongoose.model("Trip", tripSchema);
