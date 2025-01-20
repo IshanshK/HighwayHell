@@ -1,7 +1,6 @@
 const axios = require('axios');
 const Trip = require("../models/Trip");
 const User = require("../models/User");
-const Venue = require("../models/Venue"); 
 require("dotenv").config();
 const API_KEY = process.env.API_KEY; 
 
@@ -126,94 +125,36 @@ const fetchNearbyVenues = async (req, res) => {
   }
 };
 
-
 const saveDestination = async (req, res) => {
   try {
-    const {
-      tripId,
-      business_status,
-      geometry: { location },
-      icon,
-      icon_background_color,
-      icon_mask_base_uri,
-      name,
-      opening_hours,
-      photos,
-      place_id,
-      plus_code,
-      price_level,
-      rating,
-      reference,
-      scope,
-      types,
-      user_ratings_total,
-      vicinity
-    } = req.body;
+    const { place_id, tripId } = req.body;
 
     // Check for required fields
-    if (!place_id || !name || !location.lat || !location.lng) {
-      return res.status(400).json({ message: "Missing required fields." });
+    if (!place_id || !tripId) {
+      return res.status(400).json({ message: "Missing required fields: place_id or tripId." });
     }
 
-
-    const venue = new Venue({
-      businessStatus: business_status,
-      geometry: {
-        location: {
-          latitude: location.lat,
-          longitude: location.lng,
-        },
-      },
-      icon,
-      iconBackgroundColor: icon_background_color,
-      iconMaskBaseUri: icon_mask_base_uri,
-      name,
-      openingHours: {
-        openNow: opening_hours?.open_now,
-      },
-      photos: photos?.map((photo) => ({
-        height: photo.height,
-        htmlAttributions: photo.html_attributions,
-        photoReference: photo.photo_reference,
-        width: photo.width,
-      })),
-      venueId: place_id,
-      plusCode: {
-        compoundCode: plus_code?.compound_code,
-        globalCode: plus_code?.global_code,
-      },
-      priceLevel: price_level,
-      rating,
-      reference,
-      scope,
-      types,
-      userRatingsTotal: user_ratings_total,
-      vicinity,
-    });
-
-    await venue.save();
-    // Update the trip with the reference to the venue
+    // Validate the trip exists
     const trip = await Trip.findById(tripId);
     if (!trip) {
       return res.status(404).json({ message: "Trip not found." });
     }
-    trip.venue = venue._id;
+
+    // Save the placeId to the trip
+    trip.placeId = place_id;
     await trip.save();
 
     res.status(201).json({
-      message: "Venue saved and linked to trip successfully.",
-      venue,
+      message: "place_id successfully saved to the trip.",
       trip,
     });
-  } 
-
-
-   catch (error) {
-    res.status(500).json({ message: "Error saving venue data.", error: error.message });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error saving place_id to the trip.",
+      error: error.message,
+    });
   }
 };
-
-
 
 
 module.exports = {

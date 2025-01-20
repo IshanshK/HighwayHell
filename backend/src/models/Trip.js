@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-//const Venue = require("../models");
-//const User = require("../models");
-
 
 const tripSchema = new mongoose.Schema(
   {
@@ -36,9 +33,9 @@ const tripSchema = new mongoose.Schema(
         },
       ],
     },
-    venue: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Venue", // Reference to the Venue model
+    placeId: {
+      type: String, // Store the place ID directly as a string
+      required: false,
     },
   },
   { timestamps: true } // Automatically add createdAt and updatedAt fields
