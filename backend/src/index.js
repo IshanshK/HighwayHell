@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth.js");
 const tripRoutes = require("./routes/trip.js");
 const chatRoutes = require("./routes/chat.js");
 const messageRoutes = require("./routes/message.js");
+var cors = require("cors");
 //const userRoutes = require("./routes/users.js");
 //const User = require("./models/User.js");
 
@@ -13,6 +14,8 @@ const messageRoutes = require("./routes/message.js");
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use("/auth", authRoutes);
