@@ -8,6 +8,11 @@ const tripSchema = new mongoose.Schema(
       trim: true,
       maxlength: 100,
     },
+    description: {
+      type: String, // Add description field
+      required: true,
+      maxlength: 1000, // You can set a maximum length for the description
+    },
     participants: {
       type: [
         {

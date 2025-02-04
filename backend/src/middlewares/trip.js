@@ -10,7 +10,9 @@ const calculateMidpoint = async (req, res, next) => {
 
     const participants = trip.participants;
     if (participants.length === 0) {
-      return res.status(400).json({ message: "No participants to calculate midpoint" });
+      return res
+        .status(400)
+        .json({ message: "No participants to calculate midpoint" });
     }
 
     let totalLatitude = 0;
@@ -28,7 +30,9 @@ const calculateMidpoint = async (req, res, next) => {
     req.midpoint = midpoint;
     next();
   } catch (error) {
-    res.status(500).json({ message: "Error calculating midpoint", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error calculating midpoint", error: error.message });
   }
 };
 
