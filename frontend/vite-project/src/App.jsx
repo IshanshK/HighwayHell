@@ -7,6 +7,9 @@ import ProfilePage from "./pages/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage"; // Import your edit profile component
 import PageLayout from "./Layouts/PageLayout/PageLayout";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import CreateTripPage from "./pages/CreateTripPage";
+import TripPage from "./pages/TripPage";
+
 
 function AuthenticatedApp() {
   const { currentUser } = useAuth();
@@ -39,6 +42,8 @@ function AuthenticatedApp() {
                 <Route path="/profile/:userId" element={<ProfilePage />} />
                 {/* New edit profile route */}
                 <Route path="/edit-profile" element={<EditProfilePage />} />
+                  <Route path="/createTrip" element={<CreateTripPage />} />
+                  <Route path = "/trip/:id" element = {<TripPage />} />
                 {/* Redirect all other paths to profile */}
                 <Route path="*" element={<ProfileRedirect />} />
               </Routes>

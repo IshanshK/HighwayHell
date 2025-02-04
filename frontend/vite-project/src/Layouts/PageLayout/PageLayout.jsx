@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Bell, Menu } from "lucide-react";
-import { useAuth } from "../../context/AuthContext"; // Make sure path is correct
+import { Menu } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import Sidebar from "../../components/Sidebar";
-import { useEffect, useState } from "react";
+import NotificationDropdown from "../../components/NotificationDropdown/NotificationDropdown";
 
 const PageLayout = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { currentUser } = useAuth(); // Get currentUser from context
+  const { currentUser } = useAuth();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const isLandingPage = pathname === "/";
@@ -19,8 +20,7 @@ const PageLayout = ({ children }) => {
       navigate(`/profile/${currentUser._id}`);
     }
   };
-  
- 
+
   return (
     <div className="flex h-screen bg-white overflow-hidden">
       {/* Navbar */}
@@ -47,10 +47,8 @@ const PageLayout = ({ children }) => {
           </div>
 
           <div className="flex items-center space-x-4">
-            {/* Notification Icon */}
-            <button className="p-2 rounded-md hover:bg-gray-100 transition">
-              <Bell size={28} />
-            </button>
+            {/* Notification Dropdown */}
+            <NotificationDropdown />
 
             {/* Profile Avatar */}
             {currentUser && (
@@ -65,13 +63,14 @@ const PageLayout = ({ children }) => {
         </nav>
       )}
 
-      {/* Rest of your layout remains the same */}
+      {/* Sidebar */}
       {!isLandingPage && !isAuthPage && <Sidebar isExpanded={isSidebarExpanded} />}
 
+      {/* Page Content */}
       <main
         className={`flex-1 overflow-auto transition-all duration-300 ${
           !isLandingPage && !isAuthPage ? "mt-[60px]" : "mt-0"
-        } ${isSidebarExpanded ? "ml-[240px]" : isLandingPage ? "ml-0" : "ml-[70px]"} `}
+        } ${isSidebarExpanded ? "ml-[240px]" : isLandingPage ? "ml-0" : "ml-[70px]"}`}
       >
         <div>{children}</div>
       </main>
