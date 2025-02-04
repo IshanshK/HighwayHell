@@ -6,7 +6,7 @@ const tripRoutes = require("./routes/trip.js");
 const chatRoutes = require("./routes/chat.js");
 const messageRoutes = require("./routes/message.js");
 var cors = require("cors");
-//const userRoutes = require("./routes/users.js");
+const userRoutes = require("./routes/User.js");
 //const User = require("./models/User.js");
 
 
@@ -23,7 +23,7 @@ app.use("/trip", tripRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-//app.use("/users", userRoutes);
+app.use("/users", userRoutes);
 
 
 // Connect to MongoDB

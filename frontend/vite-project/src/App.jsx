@@ -1,23 +1,62 @@
-
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ProfilePage from "./pages/ProfilePage";
+import EditProfilePage from "./pages/EditProfilePage"; // Import your edit profile component
 import PageLayout from "./Layouts/PageLayout/PageLayout";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
-function App() {
-  const location = useLocation();
+function AuthenticatedApp() {
+  const { currentUser } = useAuth();
+
+  const ProfileRedirect = () => {
+    return <Navigate to={`/profile/${currentUser?._id}`} replace />;
+  };
 
   return (
-    <PageLayout>
-      <Routes location={location}>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-      </Routes>
-      </PageLayout>
+    <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<LandingPage />} />
+      <Route 
+        path="/login" 
+        element={currentUser ? <ProfileRedirect /> : <LoginPage />} 
+      />
+      <Route 
+        path="/signup" 
+        element={currentUser ? <ProfileRedirect /> : <SignupPage />} 
+      />
+
+      {/* Protected routes */}
+      <Route
+        path="/*"
+        element={
+          currentUser ? (
+            <PageLayout>
+              <Routes>
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/profile/:userId" element={<ProfilePage />} />
+                {/* New edit profile route */}
+                <Route path="/edit-profile" element={<EditProfilePage />} />
+                {/* Redirect all other paths to profile */}
+                <Route path="*" element={<ProfileRedirect />} />
+              </Routes>
+            </PageLayout>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+    </Routes>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AuthenticatedApp />
+    </AuthProvider>
   );
 }
 

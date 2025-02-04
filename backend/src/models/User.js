@@ -3,6 +3,14 @@ const mongoose =  require("mongoose");
 // Regular expression for username validation
 const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_\-$]{0,49}$/;
 
+const connectSchema = new mongoose.Schema({
+  leetcode: { type: String, default: '' },
+  instagram: { type: String, default: '' },
+  linkedin: { type: String, default: '' }
+});
+
+
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -35,13 +43,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  dob: {
-    type: Date,
+  occupation: {
+    type: String,
     required: false,
   },
-  sex: {
+  location: {
     type: String,
-    enum: ["male", "female", "other"],
     required: false,
   },
   friends: [
@@ -51,7 +58,22 @@ const userSchema = new mongoose.Schema({
       required: false,
     },
   ],
-}, {timestamps: true }
+  profileImage: { 
+    type: String, 
+    default: './images//default-profile.jpeg' 
+  },
+  coverImage: { 
+    type: String, 
+    default: './images/default-cover.jpg' 
+  },
+
+  // About section
+  about: {
+    type:String,
+  },
+  connect: connectSchema,
+},
+ {timestamps: true }
 );
 
 // Export the model
